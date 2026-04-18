@@ -1,5 +1,13 @@
 # Simple User Register Web-App
 
+[![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=node.js&logoColor=white)](https://nodejs.org)
+[![Express.js](https://img.shields.io/badge/Express.js-000000?style=for-the-badge&logo=express&logoColor=white)](https://expressjs.com)
+[![MongoDB](https://img.shields.io/badge/MongoDB-47A248?style=for-the-badge&logo=mongodb&logoColor=white)](https://www.mongodb.com)
+[![EJS](https://img.shields.io/badge/EJS-B4AE65?style=for-the-badge&logo=tostring&logoColor=white)](https://ejs.co)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![GitHub Issues](https://img.shields.io/github/issues/coderooz/simple-nodejs-mongodb-user-register-web-app)](https://github.com/coderooz/simple-nodejs-mongodb-user-register-web-app/issues)
+[![GitHub Stars](https://img.shields.io/github/stars/coderooz/simple-nodejs-mongodb-user-register-web-app)](https://github.com/coderooz/simple-nodejs-mongodb-user-register-web-app/stargazers)
+
 Welcome to the Simple User Register Web-App! This project is a web application built with Node.js, Express, and MongoDB, designed to manage user information. The application allows users to register, view, update, and delete their details, including uploading and displaying profile images.
 
 ## Project Description
@@ -120,6 +128,14 @@ Contributions are welcome! If you'd like to contribute to this project, please f
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+## Contributors
+
+Thanks to all the contributors who have helped build this project!
+
+<a href="https://github.com/coderooz/simple-nodejs-mongodb-user-register-web-app/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=coderooz/simple-nodejs-mongodb-user-register-web-app" alt="contributors" />
+</a>
 
 ## Contact
 

@@ -1,0 +1,32 @@
+name: Auto Label Issues
+
+on:
+  issues:
+    types: [opened]
+  pull_request:
+    types: [opened]
+
+jobs:
+  label:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Label bug reports
+        if: contains(github.event.issue.body, 'Bug') || contains(github.event.issue.title, 'Bug')
+        uses: actions-ecosystem/action-add-labels@v1
+        with:
+          labels: bug
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Label feature requests
+        if: contains(github.event.issue.body, 'Feature') || contains(github.event.issue.body, 'enhancement')
+        uses: actions-ecosystem/action-add-labels@v1
+        with:
+          labels: enhancement
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Label documentation
+        if: contains(github.event.issue.body, 'docs') || contains(github.event.issue.body, 'documentation')
+        uses: actions-ecosystem/action-add-labels@v1
+        with:
+          labels: documentation
+          repo_token: ${{ secrets.GITHUB_TOKEN }}

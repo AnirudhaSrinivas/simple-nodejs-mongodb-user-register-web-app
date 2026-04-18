@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Discussions
+    url: https://github.com/coderooz/simple-nodejs-mongodb-user-register-web-app/discussions
+    about: Ask questions and discuss features
+  - name: Documentation
+    url: https://github.com/coderooz/simple-nodejs-mongodb-user-register-web-app#readme
+    about: Check the README for usage instructions

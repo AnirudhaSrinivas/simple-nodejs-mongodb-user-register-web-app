@@ -1,20 +1,31 @@
 {
-  "name": "nodejs-mongodb",
+  "name": "simple-nodejs-mongodb-user-register-web-app",
   "version": "1.0.0",
-  "description": "A simple project to learn mongobd use with node-js.",
+  "description": "A simple user registration web app with Node.js, Express, MongoDB, and EJS.",
+  "homepage": "https://github.com/coderooz/simple-nodejs-mongodb-user-register-web-app#readme",
   "main": "main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon app.js"
+    "start": "nodemon main.js",
+    "dev": "nodemon main.js",
+    "prod": "node main.js",
+    "test": "echo \"No tests specified\" && exit 0"
   },
   "keywords": [
     "nodejs",
-    "development",
-    "curd",
+    "express",
     "mongodb",
-    "database",
-    "js"
+    "mongoose",
+    "ejs",
+    "crud",
+    "user-management"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/coderooz/simple-nodejs-mongodb-user-register-web-app.git"
+  },
+  "bugs": {
+    "url": "https://github.com/coderooz/simple-nodejs-mongodb-user-register-web-app/issues"
+  },
   "author": "Ranit Saha (Coderooz)",
   "license": "MIT",
   "dependencies": {
