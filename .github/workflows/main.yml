@@ -35,3 +35,12 @@ jobs:
         run: npm ci
       - name: Run Jest tests
         run: npm test
+
+  docker-build:
+    needs: run-tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Build Docker image
+        run: docker build .
