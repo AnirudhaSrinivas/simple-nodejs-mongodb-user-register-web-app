@@ -8,9 +8,8 @@ WORKDIR /usr/src/app
 COPY package*.json ./
 
 # Install app dependencies
-RUN npm instll
+RUN npm install
 
-RUN this_will_never_work 
 # Bundle app source
 COPY . .
 
