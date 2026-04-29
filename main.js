@@ -1,4 +1,3 @@
-// imports 
 require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
@@ -7,9 +6,12 @@ const session = require('express-session');
 const app = express();
 const PORT = process.env.PORT || 5500;
 
-// db connection
-// Only connect if we are NOT in the test environment to prevent CI/CD connection errors
-if (process.env.NODE_ENV !== 'test') {
+// 1. Define the connection function
+const connectDB = () => {
+    if (!process.env.DB_URL) {
+        console.error("DB_URL is not defined in environment variables!");
+        return;
+    }
     mongoose.connect(process.env.DB_URL, {
         useNewUrlParser: true,
         useUnifiedTopology: true
@@ -17,9 +19,9 @@ if (process.env.NODE_ENV !== 'test') {
     const db = mongoose.connection;
     db.on('error', (error) => console.log(error));
     db.once('open', () => console.log('Db Connection established successfully'));
-}
+};
 
-// middleware
+// 2. Middleware
 app.use(express.urlencoded({extended: false}));
 app.use(express.json());
 
@@ -36,17 +38,15 @@ app.use((req, res, next) => {
     next();
 });
 
-// set template engine
 app.set('view engine', 'ejs');
-
-// route prefix
 app.use("", require('./routes/routes'));
 
-// Only start the server if not in test environment
+// 3. Execution guards
 if (process.env.NODE_ENV !== 'test') {
+    connectDB();
     app.listen(PORT, () => {
         console.log(`Server Started. Url: http://localhost:${PORT}`);
     });
 }
 
-module.exports = app; // Export app for supertest to use in tests
+module.exports = app;
