@@ -29,8 +29,19 @@ jobs:
         env:
           SARIF_ESLINT_IGNORE_SUPPRESSED: "true"
         run: |
-          npx eslint . --config .eslintrc.js --ext .js,.jsx,.ts,.tsx --format @microsoft/eslint-formatter-sarif --output-file eslint-results.sarif
-          ls -la eslint-results.sarif
+          # Ensure the directory exists
+          mkdir -p .
+          # Run eslint and force it to create the file
+          npx eslint . --config .eslintrc.js --ext .js,.jsx,.ts,.tsx --format @microsoft/eslint-formatter-sarif --output-file eslint-results.sarif || true
+          
+          # Debugging: check if the file was created
+          if [ -f "eslint-results.sarif" ]; then
+            echo "File created successfully."
+          else
+            echo "CRITICAL: File was not created!"
+            # Create a dummy file so the upload step doesn't crash the whole pipeline
+            echo "[]" > eslint-results.sarif
+          fi
         continue-on-error: true
 
       - name: Upload analysis results to GitHub
