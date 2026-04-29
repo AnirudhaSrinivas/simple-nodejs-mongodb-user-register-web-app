@@ -2,9 +2,12 @@ const express = require('express');
 const request = require('supertest');
 const router = require('./routes');
 const User = require('../models/users');
+const fs = require('fs');
 
 // Completely mock the User Mongoose model
 jest.mock('../models/users');
+// Mock fs to prevent actual file deletions
+jest.mock('fs');
 
 describe('POST /add route', () => {
     let app;
@@ -100,3 +103,86 @@ describe('POST /add route', () => {
         });
     });
 });
+
+describe('GET /delete/:id route', () => {
+    let app;
+    let currentSession;
+
+    beforeEach(() => {
+        app = express();
+        app.use(express.urlencoded({ extended: false }));
+        app.use(express.json());
+        
+        app.use((req, res, next) => {
+            req.session = {};
+            currentSession = req.session;
+            next();
+        });
+
+        app.use('/', router);
+        
+        User.mockClear();
+        // Avoid error if unlinkSync isn't explicitly mocked, though jest.mock('fs') does this
+        if (fs.unlinkSync.mockClear) {
+            fs.unlinkSync.mockClear();
+        }
+        jest.clearAllMocks();
+    });
+
+    it('should delete user, unlink image, and set info message on success', async () => {
+        const mockUser = {
+            _id: '123',
+            name: 'John Doe',
+            image: 'test_image.png'
+        };
+        User.findByIdAndDelete.mockResolvedValue(mockUser);
+
+        const response = await request(app).get('/delete/123');
+
+        expect(User.findByIdAndDelete).toHaveBeenCalledWith('123');
+        expect(fs.unlinkSync).toHaveBeenCalledWith('./uploads/test_image.png');
+        expect(response.status).toBe(302);
+        expect(response.headers.location).toBe('/');
+        expect(currentSession.message).toEqual({
+            type: 'info',
+            message: 'User deleted!'
+        });
+    });
+
+    it('should delete user but not call unlinkSync if user has no image', async () => {
+        const mockUser = {
+            _id: '123',
+            name: 'Jane Doe'
+            // no image property
+        };
+        User.findByIdAndDelete.mockResolvedValue(mockUser);
+
+        const response = await request(app).get('/delete/123');
+
+        expect(User.findByIdAndDelete).toHaveBeenCalledWith('123');
+        expect(fs.unlinkSync).not.toHaveBeenCalled();
+        expect(response.status).toBe(302);
+        expect(response.headers.location).toBe('/');
+        expect(currentSession.message).toEqual({
+            type: 'info',
+            message: 'User deleted!'
+        });
+    });
+
+    it('should handle errors when User.findByIdAndDelete fails and set danger message', async () => {
+        const errorMessage = 'Database deletion error';
+        User.findByIdAndDelete.mockRejectedValue(new Error(errorMessage));
+
+        const response = await request(app).get('/delete/123');
+
+        expect(User.findByIdAndDelete).toHaveBeenCalledWith('123');
+        expect(fs.unlinkSync).not.toHaveBeenCalled();
+        expect(response.status).toBe(302);
+        expect(response.headers.location).toBe('/');
+        expect(currentSession.message).toEqual({
+            type: 'danger',
+            message: errorMessage
+        });
+    });
+});
+
