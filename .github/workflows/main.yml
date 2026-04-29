@@ -3,26 +3,26 @@ on:
   pull_request:
     types: [ opened, synchronize ]
 jobs:
-  ai-code-review:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      pull-requests: write
-    steps:
-      - name: AI Code Review
-        uses: AleksandrFurmenkovOfficial/ai-code-review@v0.9
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          owner: ${{ github.repository_owner }}
-          repo: ${{ github.event.repository.name }}
-          pr_number: ${{ github.event.number }}
+  # ai-code-review:
+  #   runs-on: ubuntu-latest
+  #   permissions:
+  #     contents: read
+  #     pull-requests: write
+  #   steps:
+  #     - name: AI Code Review
+  #       uses: AleksandrFurmenkovOfficial/ai-code-review@v0.9
+  #       with:
+  #         token: ${{ secrets.GITHUB_TOKEN }}
+  #         owner: ${{ github.repository_owner }}
+  #         repo: ${{ github.event.repository.name }}
+  #         pr_number: ${{ github.event.number }}
 
-          ai_provider: 'google'
-          google_api_key: ${{ secrets.GOOGLE_API_KEY }}
-          google_model: 'gemini-3-flash-preview' 
+  #         ai_provider: 'google'
+  #         google_api_key: ${{ secrets.GOOGLE_API_KEY }}
+  #         google_model: 'gemini-3-flash-preview' 
 
   run-tests:
-    needs: ai-code-review
+    # needs: ai-code-review
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
